@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
+import userRoutes from "./routes/user.js";
 
 dotenv.config();
 
@@ -20,11 +21,13 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 
 app.use(express.json());
 
-// const connection = mongoose.connection;
+app.use("/user", userRoutes);
 
-// connection.once("open", () => {
-//   console.log("MongoDB connection established succesfully!");
-// });
+const connection = mongoose.connection;
+
+connection.once("open", () => {
+  console.log("MongoDB connection established succesfully!");
+});
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
