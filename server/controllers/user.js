@@ -1,5 +1,5 @@
-import express from "express";
-import User from "../models/user.model";
+import express, { application } from "express";
+import User from "../models/user.model.js";
 import id from "mongodb";
 import argon2 from "argon2";
 
