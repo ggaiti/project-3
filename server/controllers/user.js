@@ -34,3 +34,11 @@ export const register = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+
+export const fakeRequest = async (req, res) => {
+  try {
+    res.send("hello world");
+  } catch (error) {
+    console.log(error);
+  }
+};
