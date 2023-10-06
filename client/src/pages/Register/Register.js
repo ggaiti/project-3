@@ -1,41 +1,73 @@
 import React, { useState } from "react";
-import { hello } from "../../api/user";
+import { hello, registerUser } from "../../api/user";
+import useForm from "react-hook-form";
 
 const Register = () => {
-  const [greet, setGreet] = useState("");
+  const [fullname, setFullname] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  //   const { register, handleSubmit } = useForm()
 
-  async function handleSubmit(e) {
+  async function onSubmit(e) {
     e.preventDefault();
-    const response = await hello();
-    console.log(response);
-  }
+    const newUser = {
+      fullname: fullname,
+      username: username,
+      password: password,
+    };
+    console.log(newUser);
 
+    // const response = await registerUser();
+    // console.log(response);
+  }
+  //   setFullname(e.target.value)
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <h2 class=" d-flex justify-content-center">Register</h2>
-        <div class=" position-absolute top-50 start-50 translate-middle">
-          <div class="mb-3">
-            <label class="form-label">Full Name:</label>
-            <input class="form-control " type="text" name="Full Name" />
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Username:</label>
-            <input class="form-control" type="text" name="Username" />
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Password:</label>
-            <input class="form-control" type="password" name="Password" />
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Confirm Password:</label>
+      <form onSubmit={onSubmit}>
+        <h2 className=" mt-3 d-flex justify-content-center">Register</h2>
+        <div className=" position-absolute top-50 start-50 translate-middle">
+          <div className="mb-3">
+            <label className="form-label">Full Name:</label>
             <input
-              class="form-control"
-              type="password"
-              name="Confirm Password"
+              className="form-control"
+              onChange={(e) => setFullname(e.target.value)}
+              type="text"
+              name="Full Name"
+              required
             />
           </div>
-          <button type="submit" class="btn btn-primary">
+          <div className="mb-3">
+            <label className="form-label">Username:</label>
+            <input
+              className="form-control"
+              onChange={(e) => setUsername(e.target.value)}
+              type="text"
+              name="Username"
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Password:</label>
+            <input
+              className="form-control"
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              name="Password"
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Confirm Password:</label>
+            <input
+              className="form-control"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              type="password"
+              name="Confirm Password"
+              required
+            />
+          </div>
+          <button type="submit" className="btn btn-primary">
             Submit
           </button>
         </div>
