@@ -19,9 +19,13 @@ export const login = async (req, res) => {
       });
     }
     if (req.body.password !== foundUser.password) {
-      return res.status(401).json("password does not match");
+      return res.status(401).json({
+        error: {
+          name: "password",
+          message: "password not found",
+        },
+      });
     }
-    console.log(foundUser);
     res.status(200).json("LOGGED IN");
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -30,7 +34,18 @@ export const login = async (req, res) => {
 
 export const register = async (req, res) => {
   try {
+    const query = User.where({ username: req.body.username });
+    const foundUser = await query.findOne();
+    if (foundUser !== null) {
+      return res.status(401).json({
+        error: {
+          name: "username",
+          message: "Username already exist",
+        },
+      });
+    }
     const user = await User.create(req.body);
+    console.log(user);
     res.status(200).json(user);
   } catch (error) {
     res.status(404).json({ message: error.message });

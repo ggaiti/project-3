@@ -26,9 +26,13 @@ const Login = () => {
     };
 
     const response = await loginUser(existingUser);
-    if (response.data.error.name === "") console.log(response.data.error.name);
-    // setUserError(response.data.error.message);
-    // console.log(response);
+    if (response.data.error.name === "username") {
+      return setUserError(response.data.error.message);
+    }
+    if (response.data.error.name === "password") {
+      return setPasswordError(response.data.error.message);
+    }
+    console.log(response);
   }
 
   return (

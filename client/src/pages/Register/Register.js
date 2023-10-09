@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { hello, registerUser } from "../../api/user";
+import { registerUser } from "../../api/user";
 // import useForm from "react-hook-form";
 
 const Register = () => {
@@ -36,6 +36,10 @@ const Register = () => {
     };
 
     const response = await registerUser(newUser);
+
+    if (response.data.error.name === "username") {
+      return setUserError(response.data.error.message);
+    }
     console.log(response);
   }
   //   setFullname(e.target.value)
