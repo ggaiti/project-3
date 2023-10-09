@@ -1,8 +1,9 @@
 import express from "express";
-import { fakeRequest, register } from "../controllers/user.js";
+import { register, login } from "../controllers/user.js";
 
 const userRoutes = express.Router();
 
 userRoutes.post("/register", register);
-userRoutes.get("/hi", fakeRequest);
+userRoutes.post("/login", login);
+// userRoutes.get("/hi", fakeRequest);
 export default userRoutes;

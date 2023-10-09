@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { hello, registerUser } from "../../api/user";
-import useForm from "react-hook-form";
+// import useForm from "react-hook-form";
 
 const Register = () => {
   const [fullname, setFullname] = useState("");
@@ -16,6 +16,7 @@ const Register = () => {
     e.preventDefault();
     setUserError("");
     setPasswordError("");
+    setConfirmPasswordError("");
     if (username.length < 4) {
       return setUserError("Username must be 4 characters");
     }
@@ -27,15 +28,15 @@ const Register = () => {
     if (confirmPassword !== password) {
       return setConfirmPasswordError("Passwords must match");
     }
-    console.log(newUser);
+
     const newUser = {
       fullname: fullname,
       username: username,
       password: password,
     };
 
-    // const response = await registerUser();
-    // console.log(response);
+    const response = await registerUser(newUser);
+    console.log(response);
   }
   //   setFullname(e.target.value)
   return (
