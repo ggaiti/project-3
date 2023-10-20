@@ -1,40 +1,63 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { UserContext, UserContextDispatch } from "../UserContext";
+import { logout } from "../api/user";
 
 const Navbar = () => {
+  const user = useContext(UserContext);
+  const dispatch = useContext(UserContextDispatch);
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+  const handleLogout = async () => {
+    try {
+      const response = await logout();
+      if (response.data.error !== undefined) {
+        console.log("cannot log out");
+      } else {
+        dispatch({
+          type: "logout",
+        });
+      }
+    } catch (error) {}
+    console.log("trying to log out");
+  };
+
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
-        <a className="navbar-brand" href="/">
+        <Link className="navbar-brand" to="/">
           <img src="logo192.png" alt="logo" width={40} height={40} />
-        </a>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
+        </Link>
+        <div id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="/">
+              <Link className="nav-link active" aria-current="page" to="/">
                 Home
-              </a>
+              </Link>
             </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/login">
-                Log In
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/register">
-                Register
-              </a>
-            </li>
+            {user.userId === "" ? (
+              <ul className="navbar-nav">
+                <li className="nav-item">
+                  <Link className="nav-link" to="/login">
+                    Log In
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/register">
+                    Register
+                  </Link>
+                </li>
+              </ul>
+            ) : (
+              <button
+                onClick={handleLogout}
+                className="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                aria-current="page"
+              >
+                Logout
+              </button>
+            )}
           </ul>
         </div>
       </div>

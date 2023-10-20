@@ -12,5 +12,5 @@ export const registerUser = (data) =>
   axios.post(`${url}/register`, data, axiosConfig);
 export const loginUser = (data) =>
   axios.post(`${url}/login`, data, axiosConfig);
-
+export const logout = () => axios.delete(`${url}/logout`, axiosConfig);
 // export const hello = () => axios.get(`${url}/hi`);

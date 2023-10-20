@@ -26,7 +26,7 @@ export const login = async (req, res) => {
         },
       });
     }
-    res.status(200).json("LOGGED IN");
+    res.status(200).json(foundUser);
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
@@ -47,6 +47,18 @@ export const register = async (req, res) => {
     const user = await User.create(req.body);
     console.log(user);
     res.status(200).json(user);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+//logout
+export const logout = async (req, res) => {
+  console.log("logging out");
+  try {
+    req.session.destroy((err) => {
+      return res.send("OK");
+    });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }

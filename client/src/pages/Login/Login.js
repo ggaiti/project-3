@@ -1,11 +1,25 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { loginUser } from "../../api/user";
+import { UserContext, UserContextDispatch } from "../../UserContext";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [userError, setUserError] = useState("");
+  const dispatch = useContext(UserContextDispatch);
+  const user = useContext(UserContext);
+  const navigator = useNavigate();
+
+  function handleUpdateUser(user) {
+    console.log(user);
+    dispatch({
+      type: "login",
+      userId: user._id,
+      post: user.post,
+    });
+  }
 
   async function onSubmit(e) {
     e.preventDefault();
@@ -26,12 +40,17 @@ const Login = () => {
     };
 
     const response = await loginUser(existingUser);
-    if (response.data.error.name === "username") {
-      return setUserError(response.data.error.message);
+    if (response.data.error !== undefined) {
+      if (response.data.error.name !== "username") {
+        return setUserError(response.data.error.message);
+      }
+      if (response.data.error.name === "password") {
+        return setPasswordError(response.data.error.message);
+      }
     }
-    if (response.data.error.name === "password") {
-      return setPasswordError(response.data.error.message);
-    }
+    handleUpdateUser(response.data);
+    navigator("/");
+    console.log(user);
     console.log(response);
   }
 

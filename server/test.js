@@ -1,3 +1,5 @@
+import { createContext } from "react";
+
 var dataType = {
   string: "string",
   number: 2,
@@ -82,3 +84,5 @@ const getGroceryItem = (cart, position) => {
   indexPosition(position, cart.groceries);
 };
 getGroceryItem(cart, 2);
+
+export const UserContext = createContext(null);
